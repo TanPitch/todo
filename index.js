@@ -764,6 +764,7 @@ const saveData = () => {
 
   // sort data
   sortByTime(data, dataI);
+  rawData = JSON.parse(JSON.stringify(data));
 
   document.querySelector("#page_day").style.display = "block";
   document.querySelector("#page_add").style.display = "none";
@@ -796,6 +797,7 @@ const deleteData = () => {
 
       // sort data
       sortByTime(data, dataI);
+      rawData = JSON.parse(JSON.stringify(data));
 
       generateDay(now.getDate(), now.getMonth(), now.getFullYear());
       saveToServer();
@@ -821,6 +823,8 @@ document.querySelector("#btn_logout").addEventListener("click", () => {
 
 function saveToServer() {
   page_spin.style.display = "flex";
+  rawData = JSON.parse(JSON.stringify(data));
+  generateFilter();
   const dataurl =
     "https://script.google.com/macros/s/AKfycbyB3IFdP8LxILK2rVh3u_p-H-DwRPnRPUe9eIyVe95X-Nsdy56122kJhsXhyqu8ESOY/exec";
   fetch(dataurl, {
