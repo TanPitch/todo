@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="application-name" content="Quick Search">
+  <meta name="theme-color" content="#222222">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="icon.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="icon.png">
+  <meta name="apple-mobile-web-app-title" content="Todo Lists">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="index.css">
+  <title>Todo Lists</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+
+<body>
+  <div id="page_login">
+    <div>
+      <div class="col" style="gap: 10px">
+        <h2>Login</h2>
+        <div class="col"><span>Username</span><input id="login_username"></div>
+        <div class="col"><span>Password</span>
+          <div class="row"><input type="password" id="login_password">
+            <div id="btn_login_showpass" class="btn"><span class="material-symbols-outlined">visibility</span></div>
+          </div>
+        </div>
+        <div id="btn_login" class="btn bg_color1">Login</div>
+      </div>
+    </div>
+    <div id="btn_login_bg" class="btn">change bg</div>
+  </div>
+  <div id="page_calendar">
+    <div id="calendar_header">
+      <div></div>
+      <div id="btn_prevMonth" class="btn"><span class="material-symbols-outlined">arrow_back_ios</span></div>
+      <span id="header_label" class="bold"></span>
+      <div id="btn_nextMonth" class="btn"><span class="material-symbols-outlined">arrow_forward_ios</span></div>
+      <div class="row">
+        <div id="btn_logout" class="btn"><span class="material-symbols-outlined">logout</span></div>
+        <div id="btn_darkmode" class="btn"><span class="material-symbols-outlined">dark_mode</span></div>
+      </div>
+    </div>
+    <div id="calendar_area"></div>
+  </div>
+  <div id="page_day">
+    <div id="day_header">
+      <div id="label_ot"></div>
+      <div id="btn_prevDay" class="btn"><span class="material-symbols-outlined">arrow_back_ios</span></div>
+      <span id="day_label" class="bold"></span>
+      <div id="btn_nextDay" class="btn"><span class="material-symbols-outlined">arrow_forward_ios</span></div>
+      <div id="btn_backCalendar" class="btn"><span class="material-symbols-outlined">logout</span></div>
+    </div>
+    <div id="day_area"></div>
+  </div>
+  <div id="page_add">
+    <div class="row" style="padding-left:10px;">
+      <div class="bold" id="page_add_label"></div>
+      <div class="btn"
+        onclick="document.querySelector('#page_add').style.display='none';document.querySelector('#page_day').style.display='block';">
+        <span class="material-symbols-outlined">close</span>
+      </div>
+    </div>
+    <div class="group">
+      <label>Cell</label>
+      <div class="col"><label>OT</label><input id="input_ot" type="checkbox"></div>
+      <div class="col"><label>Color</label><input id="input_cell_color" type="color" value="#efefef"></div>
+    </div>
+    <div class="group" id="input_top_group">
+      <label>Top</label>
+      <div class="col"><label>Header</label><textarea id="input_top_header" style="resize: none;"></textarea></div>
+      <div class="col"><label>Text</label><input id="input_top_text"></div>
+      <div class="col"><label>Time</label><input id="input_top_time" type="time"></div>
+      <div class="col"><label>Color</label><input id="input_top_color" type="color"></div>
+      <div class="col"><label>Shape</label><select id="input_top_shape">
+          <option>circle</option>
+          <option>box</option>
+        </select></div>
+    </div>
+    <div class="group">
+      <label>Text</label>
+      <div class="col"><label>Header</label><textarea id="input_txt_header" style="resize: none;"></textarea></div>
+      <div class="col"><label>Text</label><input id="input_txt_text"></div>
+      <div class="col"><label>Time</label><input id="input_txt_time" type="time"></div>
+      <div class="col"><label>Color</label><input id="input_txt_color" type="color"></div>
+      <div class="col"><label>Shape</label><select id="input_txt_shape">
+          <option>circle</option>
+          <option>box</option>
+        </select></div>
+    </div>
+    <div class="row" style="padding: 0 30%;">
+      <div id="btn_add_save" class="btn bg_color1">Save</div>
+      <div id="btn_add_delete" class="btn bg_color1">Delete</div>
+    </div>
+  </div>
+  <div id="page_spin">
+    <svg class="container" viewBox="0 0 40 40" height="40" width="40">
+      <circle class="track" cx="20" cy="20" r="17.5" pathlength="100" stroke-width="5px" fill="none" />
+      <circle class="car" cx="20" cy="20" r="17.5" pathlength="100" stroke-width="5px" fill="none" />
+    </svg>
+  </div>
+  <script src="index.js"></script>
+</body>
+
+</html>
