@@ -1,77 +1,11 @@
 /*
 TODO:
 [ ] setting -> adaptive UI
-[ ] filter only color
 
 FIXME:
 */
 
-// const data = {
-//   app: {
-//     login_background: 0,
-//     theme: 1
-//   },
-//   data: [
-//     {
-//       date: [2024, 6, 1],
-//       ot: true,
-//       color: "",
-//       lists: [
-//         {
-//           time: "16:00",
-//           color: "#007aff",
-//           header: "16:00",
-//           text: "sample text for 16:00",
-//           shape: "circle",
-//         },
-//         {
-//           time: "19:00",
-//           color: "#fdc800",
-//           header: "16:01",
-//           text: "sample text for 16:01",
-//           shape: "box",
-//         },
-//         {
-//           time: "22:00",
-//           color: "#ff6100",
-//           header: "16:02",
-//           text: "sample text for 16:02",
-//           shape: "box",
-//         },
-//       ],
-//     },
-//     {
-//       date: [2024, 6, 25],
-//       ot: false,
-//       color: "",
-//       lists: [
-//         {
-//           time: "16:00",
-//           color: "#007aff",
-//           header: "16:00",
-//           text: "sample text for 16:00",
-//           shape: "circle",
-//         },
-//         {
-//           time: "17:00",
-//           color: "#fdc800",
-//           header: "16:10",
-//           text: "sample text for 16:10",
-//           shape: "box",
-//         },
-//         {
-//           time: "22:00",
-//           color: "#ff6100",
-//           header: "16:20",
-//           text: "sample text for 16:20",
-//           shape: "box",
-//         },
-//       ],
-//     },
-//   ],
-// };
-// console.log(JSON.stringify(data))
-
+var rawData;
 var data = [];
 
 // #region : login
@@ -137,7 +71,9 @@ const doLogin = () => {
               localStorage.setItem("todolist_emanresu", userName);
               localStorage.setItem("todolist_drowssap", passWord);
 
-              data = JSON.parse(getdata.output);
+              rawData = JSON.parse(getdata.output);
+              data = rawData;
+              generateFilter();
               generateCalendar(now.getMonth(), now.getFullYear());
               document.querySelector("#page_login").style.display = "none";
               document.querySelector("#page_calendar").style.display = "block";
@@ -290,8 +226,48 @@ updateLoginBg();
 
 // #region : main
 
+var colorLists = [];
+function updateFilter() {
+  data = JSON.parse(JSON.stringify(rawData));
+  var colorCheck = [];
+  document.querySelectorAll("#page_filter input").forEach((el) => {
+    colorCheck.push(el.checked);
+  });
+
+  data.data.forEach((day, i) => {
+    const newData = [];
+    day.lists.forEach((el) => {
+      if (colorCheck[colorLists.indexOf(el.color)]) newData.push(el);
+    });
+    data.data[i].lists = newData;
+  });
+}
+function generateFilter() {
+  colorLists = [];
+  rawData.data.forEach((day) => {
+    day.lists.forEach((el) => {
+      if (!colorLists.includes(el.color)) colorLists.push(el.color);
+    });
+  });
+
+  document.querySelector("#page_filter").innerHTML = "";
+  colorLists.forEach((color) => {
+    document.querySelector(
+      "#page_filter"
+    ).innerHTML += `<div class="row gap" onclick="generateCalendar(${now.getMonth()}, ${now.getFullYear()})"><input type="checkbox" checked><div class="box" style="background-color: ${color}"></div></div>`;
+  });
+}
+document.querySelector("#btn_filter").addEventListener("click", () => {
+  generateFilter();
+  const page_filter = document.querySelector("#page_filter");
+  page_filter.style.display = page_filter.style.display == "block" ? "none" : "block";
+});
+
 const monthsOfYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 function generateCalendar(month, year) {
+  // update filter
+  updateFilter();
+
   const calendar_area = document.querySelector("#calendar_area");
   const header_label = document.querySelector("#header_label");
 
@@ -453,6 +429,7 @@ function generateCalendar(month, year) {
     if (!el.className.includes(["transparent"])) el.style.color = textColor;
   });
 }
+// generateCalendar(now.getMonth(), now.getFullYear());
 
 function isInHour(time, roundHourTime) {
   // Parse the given time and round hour time
@@ -658,7 +635,7 @@ function editData(e) {
 
     if (dayData.lists[0] != undefined) {
       const topData = dayData.lists[0];
-      input_top_header.value = topData.header;
+      input_top_header.value = topData.header.replaceAll("<br>", "\n");
       input_top_text.value = topData.text;
       input_top_time.value = topData.time;
       input_top_color.value = topData.color;
@@ -675,7 +652,7 @@ function editData(e) {
       }
     }
     if (thatData != undefined) {
-      input_txt_header.value = thatData.header;
+      input_txt_header.value = thatData.header.replaceAll("<br>", "\n");
       input_txt_text.value = thatData.text;
       input_txt_time.value = thatData.time;
       input_txt_color.value = thatData.color;
@@ -745,7 +722,7 @@ const saveData = () => {
     data.data[dataI].lists[0] = {
       time: input_top_time.value,
       color: input_top_color.value,
-      header: input_top_header.value.trim(),
+      header: input_top_header.value.trim().replaceAll("\n", "<br>"),
       text: input_top_text.value.trim(),
       shape: input_top_shape.value,
     };
@@ -755,7 +732,7 @@ const saveData = () => {
       data.data[dataI].lists[thatDataI] = {
         time: input_txt_time.value,
         color: input_txt_color.value,
-        header: input_txt_header.value.trim(),
+        header: input_txt_header.value.trim().replaceAll("\n", "<br>"),
         text: input_txt_text.value.trim(),
         shape: input_txt_shape.value,
       };
@@ -763,7 +740,7 @@ const saveData = () => {
       data.data[dataI].lists.push({
         time: input_txt_time.value,
         color: input_txt_color.value,
-        header: input_txt_header.value.trim(),
+        header: input_txt_header.value.trim().replaceAll("\n", "<br>"),
         text: input_txt_text.value.trim(),
         shape: input_txt_shape.value,
       });
@@ -777,7 +754,7 @@ const saveData = () => {
         {
           time: input_txt_time.value,
           color: input_txt_color.value,
-          header: input_txt_header.value.trim(),
+          header: input_txt_header.value.trim().replaceAll("\n", "<br>"),
           text: input_txt_text.value.trim(),
           shape: input_txt_shape.value,
         },
