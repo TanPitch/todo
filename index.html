@@ -27,7 +27,7 @@
 </head>
 
 <body>
-  <div id="page_login">
+  <div id="page_login" style="display: nones;">
     <div>
       <div class="col" style="gap: 10px">
         <h2>Login</h2>
@@ -43,23 +43,40 @@
     <div id="btn_login_bg" class="btn">change bg</div>
   </div>
   <div id="page_calendar">
+    <div id="calendar_tools">
+      <div class="dropdown">
+        <div onclick="dropDown()" class="dropbtn">Tools</div>
+        <div class="dropdown-content">
+          <div>Batch input</div>
+        </div>
+      </div>
+      <div class="dropdown">
+        <div onclick="dropDown()" class="dropbtn">Settings</div>
+        <div class="dropdown-content">
+          <div id="btn_filter">Filter</div>
+          <div id="btn_darkmode">Toggle night</div>
+          <div id="btn_logout">Logout</div>
+        </div>
+      </div>
+      <!-- <div id="btn_filter" class="btn"><span class="material-symbols-outlined">filter_alt</span></div>
+      <div id="btn_logout" class="btn"><span class="material-symbols-outlined">logout</span></div>
+      <div id="btn_darkmode" class="btn"><span class="material-symbols-outlined">dark_mode</span></div> -->
+    </div>
     <div id="calendar_header">
       <div></div>
       <div id="btn_prevMonth" class="btn"><span class="material-symbols-outlined">arrow_back_ios</span></div>
       <span id="header_label" class="bold"></span>
       <div id="btn_nextMonth" class="btn"><span class="material-symbols-outlined">arrow_forward_ios</span></div>
-      <div class="row">
-        <div id="btn_filter" class="btn"><span class="material-symbols-outlined">filter_alt</span></div>
-        <div id="btn_logout" class="btn"><span class="material-symbols-outlined">logout</span></div>
-        <div id="btn_darkmode" class="btn"><span class="material-symbols-outlined">dark_mode</span></div>
-      </div>
+      <div></div>
     </div>
     <div id="calendar_area"></div>
   </div>
-  <div id="page_filter"></div>
   <div id="page_day">
+    <div id="day_tools">
+      <div id="btn_day_setting" class="dropbtn">Settings</div>
+    </div>
     <div id="day_header">
-      <div id="label_ot"></div>
+      <div id="label_ot" class="ot"></div>
       <div id="btn_prevDay" class="btn"><span class="material-symbols-outlined">arrow_back_ios</span></div>
       <span id="day_label" class="bold"></span>
       <div id="btn_nextDay" class="btn"><span class="material-symbols-outlined">arrow_forward_ios</span></div>
@@ -67,51 +84,132 @@
     </div>
     <div id="day_area"></div>
   </div>
-  <div id="page_add">
-    <div class="row" style="padding-left:10px;">
-      <div class="bold" id="page_add_label"></div>
-      <div class="btn"
-        onclick="document.querySelector('#page_add').style.display='none';document.querySelector('#page_day').style.display='block';">
-        <span class="material-symbols-outlined">close</span>
-      </div>
-    </div>
-    <div class="group">
-      <label>Cell</label>
-      <div class="col"><label>OT</label><input id="input_ot" type="checkbox"></div>
-      <div class="col"><label>Color</label><input id="input_cell_color" type="color" value="#efefef"></div>
-    </div>
-    <div class="group" id="input_top_group">
-      <label>Top</label>
-      <div class="col"><label>Header</label><textarea id="input_top_header" style="resize: none;"></textarea></div>
-      <div class="col"><label>Text</label><input id="input_top_text"></div>
-      <div class="col"><label>Time</label><input id="input_top_time" type="time"></div>
-      <div class="col"><label>Color</label><input id="input_top_color" type="color"></div>
-      <div class="col"><label>Shape</label><select id="input_top_shape">
-          <option>circle</option>
-          <option>box</option>
-        </select></div>
-    </div>
-    <div class="group">
-      <label>Text</label>
-      <div class="col"><label>Header</label><textarea id="input_txt_header" style="resize: none;"></textarea></div>
-      <div class="col"><label>Text</label><input id="input_txt_text"></div>
-      <div class="col"><label>Time</label><input id="input_txt_time" type="time"></div>
-      <div class="col"><label>Color</label><input id="input_txt_color" type="color"></div>
-      <div class="col"><label>Shape</label><select id="input_txt_shape">
-          <option>circle</option>
-          <option>box</option>
-        </select></div>
-    </div>
-    <div class="row" style="padding: 0 30%;">
-      <div id="btn_add_save" class="btn bg_color1">Save</div>
-      <div id="btn_add_delete" class="btn bg_color1">Delete</div>
-    </div>
-  </div>
   <div id="page_spin">
     <svg class="container" viewBox="0 0 40 40" height="40" width="40">
       <circle class="track" cx="20" cy="20" r="17.5" pathlength="100" stroke-width="5px" fill="none" />
       <circle class="car" cx="20" cy="20" r="17.5" pathlength="100" stroke-width="5px" fill="none" />
     </svg>
+  </div>
+  <div class="modal" id="page_add">
+    <div class="row drag" style="padding-left:10px;">
+      <div class="bold" id="page_add_label"></div>
+      <div class="btn" onclick="document.querySelector('#page_add').style.display='none';">
+        <span class="material-symbols-outlined">close</span>
+      </div>
+    </div>
+    <div class="group">
+      <div class="col gap"><label>Header</label><textarea id="input_txt_header" style="resize: none;"></textarea></div>
+      <div class="col gap"><label>Text</label><textarea id="input_txt_text" style="resize: none;"></textarea></div>
+    </div>
+    <div class="group">
+      <div class="col gap"><label>Time</label><input id="input_txt_time" type="time"></div>
+      <div class="col gap"><label>Shape</label><select id="input_txt_shape">
+          <option>circle</option>
+          <option>box</option>
+        </select></div>
+    </div>
+    <div class="group">
+      <div class="col gap"><label>Text</label>
+        <div id="input_txt_color" onclick="openPicker()" class="colorPicker"></div>
+      </div>
+      <div class="col gap"><label>BG</label>
+        <div id="input_dot_color" onclick="openPicker()" class="colorPicker"></div>
+      </div>
+      <div class="col gap"><label>Border</label>
+        <div id="input_line_color" onclick="openPicker()" class="colorPicker"></div>
+      </div>
+      <div class="col gap"><label>Thick</label>
+        <input id="input_line_thick" type="number" min="0" step="1" value="0" style="width: 30px;">
+      </div>
+      <div class="col gap"><label>Dash</label>
+        <select id="input_line_dash">
+          <option value="solid">_____</option>
+          <option value="dashed">__ __ </option>
+          <option value="dotted">• • • • • •</option>
+        </select>
+      </div>
+    </div>
+    <div class="row" style="padding: 10px 30%;">
+      <div id="btn_add_save" class="btn bg_color1">Save</div>
+      <div id="btn_add_delete" class="btn bg_color1">Delete</div>
+    </div>
+  </div>
+  <div class="modal" id="page_day_setting">
+    <div class="row drag" style="padding-left:10px;">
+      <div></div>
+      <div class="btn" onclick="document.querySelector('#page_day_setting').style.display='none';">
+        <span class="material-symbols-outlined">close</span>
+      </div>
+    </div>
+    <div class="group space">
+      <div class="col gap"><label>OT</label>
+        <div class="switch_container">
+          <input type="checkbox" class="checkbox" id="input_ot">
+          <label class="switch" for="input_ot">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      <div class="col gap"><label>Text</label>
+        <textarea id="input_cell_text" style="resize: none;" placeholder="OT"></textarea>
+      </div>
+    </div>
+    <div class="group space">
+      <div class="col gap"><label>BG</label>
+        <div id="input_cell_colorBG" onclick="openPicker()" class="colorPicker"></div>
+      </div>
+      <div class="col gap"><label>OT</label>
+        <div id="input_cell_colorOT" onclick="openPicker()" class="colorPicker"></div>
+      </div>
+      <div class="col gap"><label>Border</label>
+        <div id="input_cell_colorBorder" onclick="openPicker()" class="colorPicker"></div>
+      </div>
+      <div class="col gap"><label>Thick</label>
+        <input id="input_cell_thick" type="number" min="0" step="1" value="0" style="width: 30px;">
+      </div>
+      <div class="col gap"><label>Dash</label>
+        <select id="input_cell_dash">
+          <option value="solid">_____</option>
+          <option value="dashed">__ __ </option>
+          <option value="dotted">• • • • • •</option>
+        </select>
+      </div>
+    </div>
+    <div id="btn_day_save" class="btn bg_color1" style="margin-top: 10px;">Done</div>
+  </div>
+  <div class="modal" id="page_filter">
+    <div class="row drag" style="padding-left:10px;">
+      <div>Filter</div>
+      <div class="btn" onclick="document.querySelector('#page_filter').style.display='none';">
+        <span class="material-symbols-outlined">close</span>
+      </div>
+    </div>
+    <div id="filter_area"></div>
+  </div>
+  <div id="color_picker">
+    <div class="picker_row">
+      <div id="btn_picker_grid" class="select">Grid</div>
+      <div id="btn_picker_slide">Slide</div>
+    </div>
+    <div id="picker_grid"></div>
+    <div id="picker_slide">
+      <div id="colorBox"></div>
+      <canvas id="colorCanvas" width="170" height="142"></canvas>
+      <div id="colorRainbow">
+        <div id="colorRainbow_picker"></div>
+      </div>
+    </div>
+    <div class="picker_row"><input id="picker_hex" style="width: 100%; padding: 0;">
+      <div>hex</div>
+    </div>
+    <div class="row">
+      <div id="picker_previous"></div>
+      <div id="picker_preview"></div>
+    </div>
+    <div class="picker_row">
+      <div id="picker_clear">Clear</div>
+      <div onclick="document.querySelector('#color_picker').style.display='none'">Close</div>
+    </div>
   </div>
   <script src="index.js"></script>
 </body>

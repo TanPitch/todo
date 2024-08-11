@@ -38,6 +38,49 @@ select {
   font-style: normal;
 }
 
+/* #region : drop down */
+
+.dropbtn {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropbtn:hover,
+.dropbtn:focus {
+  box-shadow: inset 0 0 50px 50px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--white);
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content>div {
+  padding: 4px 8px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.dropdown-content>div:hover {
+  box-shadow: inset 0 0 50px 50px rgba(0, 0, 0, 0.3);
+}
+
+.show {
+  display: block;
+}
+
+/* #endregion */
+
 /* #region : login */
 
 #page_login {
@@ -147,6 +190,11 @@ select {
 
 /* #region : calendar */
 
+#calendar_tools {
+  display: none;
+  /* justify-content: end; */
+}
+
 #calendar_area {
   overflow-x: auto;
 }
@@ -162,10 +210,17 @@ select {
   border-collapse: collapse;
 }
 
-#page_calendar th,
+#page_calendar th {
+  border: 1px solid var(--color5);
+  text-align: top;
+  padding: 4px;
+  width: 14.28571%;
+}
+
 #page_calendar td {
   border: 1px solid var(--color5);
-  text-align: center;
+  text-align: left;
+  vertical-align: top;
   padding: 4px;
   width: 14.28571%;
 }
@@ -186,19 +241,20 @@ select {
   box-shadow: inset 0 0 50px 50px rgba(0, 0, 0, 0.1);
 }
 
-#page_filter {
-  display: none;
-  width: 92px;
-  position: fixed;
-  top: 44px;
-  right: 0px;
-  padding: 20px;
-  background-color: var(--white);
+#filter_area {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 /* #endregion */
 
 /* #region : day */
+
+#day_tools {
+  /* display: flex; */
+  display: none;
+}
 
 #page_day {
   display: none;
@@ -225,7 +281,11 @@ select {
   border: 1px solid var(--color5);
   text-align: center;
   padding: 4px;
-  width: 14.28571%;
+}
+
+#page_day td:nth-child(2) {
+  width: 20px;
+  text-align: center;
 }
 
 #page_day th {
@@ -261,6 +321,117 @@ select {
 
 /* #endregion */
 
+/* #region : color picker */
+
+.colorPicker {
+  width: 40px;
+  height: 20px;
+  border: 1px solid var(--black);
+  border-radius: 4px;
+}
+
+#color_picker {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 170px;
+  padding: 20px;
+  border-radius: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  background-color: var(--white);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.picker_row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.picker_row>div {
+  padding: 4px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.picker_row>div.select {
+  background-color: var(--color1);
+}
+
+.picker_row>div:hover {
+  box-shadow: inset 0 0 50px 50px rgba(0, 0, 0, 0.3);
+}
+
+#picker_grid td {
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
+}
+
+#picker_grid td.select {
+  box-shadow: inset 0 0 0px 2px var(--black);
+}
+
+#colorBox {
+  border: 2px solid var(--black);
+  outline: 2px solid var(--white);
+  outline-offset: 0px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  top: 0px;
+  position: absolute;
+}
+
+#picker_slide {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+#colorRainbow {
+  position: relative;
+  width: 100%;
+  height: 15px;
+  background: linear-gradient(90deg,
+      rgba(255, 0, 0, 1) 0%,
+      rgba(255, 154, 0, 1) 10%,
+      rgba(208, 222, 33, 1) 20%,
+      rgba(79, 220, 74, 1) 30%,
+      rgba(63, 218, 216, 1) 40%,
+      rgba(47, 201, 226, 1) 50%,
+      rgba(28, 127, 238, 1) 60%,
+      rgba(95, 21, 242, 1) 70%,
+      rgba(186, 12, 248, 1) 80%,
+      rgba(251, 7, 217, 1) 90%,
+      rgba(255, 0, 0, 1) 100%);
+}
+
+#colorRainbow_picker {
+  position: absolute;
+  width: 0px;
+  height: 11px;
+  border: 2px solid var(--black);
+}
+
+#picker_hex {
+  text-align: center;
+}
+
+#picker_previous {
+  width: 50%;
+  height: 20px;
+}
+
+#picker_preview {
+  width: 50%;
+  height: 20px;
+}
+
+/* #endregion */
+
 .bold {
   font-weight: 800;
 }
@@ -276,7 +447,7 @@ select {
 }
 
 .row.gap.top {
-  align-items: baseline;
+  align-items: flex-start;
 }
 
 .left {
@@ -288,6 +459,14 @@ select {
   flex-direction: column;
   align-items: baseline;
   gap: 2px;
+}
+
+.col.gap {
+  gap: 8px;
+}
+
+.col.top {
+  justify-content: flex-start;
 }
 
 .btn {
@@ -315,14 +494,103 @@ select {
 .group {
   padding: 4px;
   display: flex;
-  align-items: center;
   gap: 10px;
+}
+
+.group.space {
+  justify-content: space-between;
 }
 
 .group>label:first-child {
   font-weight: 800;
   padding: 10px;
 }
+
+.modal {
+  min-width: 120px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  padding: 10px;
+  border-radius: 6px;
+  display: none;
+  background-color: var(--white);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+/* #region : switch */
+
+
+/* The switch - the box around the slider */
+.switch_container {
+  width: 40px;
+  height: 20px;
+  position: relative;
+}
+
+/* Hide default HTML checkbox */
+.checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.switch {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-color: var(--color5);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+/* The slider */
+.slider {
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  left: calc(50% - 18px/2 - 10px);
+  top: calc(50% - 18px/2);
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+}
+
+.checkbox:checked+.switch {
+  background-color: var(--color1);
+}
+
+.checkbox:checked+.switch .slider {
+  left: calc(50% - 18px/2 + 10px);
+  top: calc(50% - 18px/2);
+}
+
+
+/* #endregion */
+
+/* #region : check box */
+
+.boxcheck {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--color5);
+}
+
+.boxcheck:hover {
+  box-shadow: inset 0 0 50px 50px rgba(0, 0, 0, 0.3);
+}
+
+.boxcheck.check {
+  background-color: var(--color1);
+}
+
+/* #endregion */
 
 /* #region : color */
 
