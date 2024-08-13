@@ -2,11 +2,10 @@
 TODO:
 [ ] press enter -> login
 [ ] add lists to multiple day (batch)
+[ ] add copy head to text
 
 FIXME:
 [ ] ot boder not auto in day page
-[ ] when edit ot -> not save
-[ ] ot in ot edit page, not update
 */
 
 var rawData;
@@ -549,7 +548,7 @@ function generateCalendar(month, year) {
           }
 
           if (i == dayData.toplist) {
-            lists_txt += `<div class="row gap"><div class="bold">${day}</div><div class="${shapeReturn(
+            lists_txt += `<div class="row gap top"><div class="bold">${day}</div><div class="${shapeReturn(
               el.shape
             )}" style="background-color: ${el.color.bg}; border: ${el.border.thick}px ${el.border.line} ${
               el.border.color != "" ? el.border.color : borderColor(dayData.color)
@@ -584,7 +583,7 @@ function generateCalendar(month, year) {
           }
 
           if (i != dayData.toplist) {
-            lists_txt += `<div class="row gap"><div class="${shapeReturn(
+            lists_txt += `<div class="row gap top"><div class="${shapeReturn(
               el.shape
             )}" style="background-color: ${el.color.bg}; border: ${el.border.thick}px ${el.border.line} ${
               el.border.color != "" ? el.border.color : borderColor(dayData.color)
@@ -593,7 +592,7 @@ function generateCalendar(month, year) {
         }
 
         cell_txt = `<div class="row gap top"><div class="col top">${lists_txt}</div>${
-          dayData.ot ? `<div class="ot" ${otstyle}>OT</div>` : ""
+          dayData.ot.show ? `<div class="ot" ${otstyle}>OT</div>` : ""
         }</div>`;
       } else {
         cell_txt = dayData.ot.show
